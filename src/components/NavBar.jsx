@@ -1,8 +1,9 @@
-/* eslint-disable no-unused-vars */
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from "react-router-dom";
+import AuthService from '../services/auth.service';
 
 const NavBar = () => {
+  const [user, setUser] = useState(Aut)
   return (
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
        <div class="container-fluid">
@@ -28,16 +29,41 @@ const NavBar = () => {
                 Home
                </Link>
             </li>
+            {user && (
             <li className="nav-item">
                 <Link className="nav-link" to="/add">
                     Add
                 </Link>
             </li>
+            )}
+            {user && (
             <li className="nav-item">
                 <Link className="nav-link" to="/search">
                     Search
                 </Link>
             </li>
+            )}
+            {user && (
+            <li className="nav-item">
+                <Link className="nav-link" to="/signin">
+                    SignIn
+                </Link>
+            </li>
+            )}
+            {user && (
+            <li className="nav-item">
+                <Link className="nav-link" to="/signup">
+                    SignUp
+                </Link>
+            </li>
+            )}
+            {user && (
+            <li className="nav-item">
+                <Link className="nav-link" to="/logout">
+                    Log out
+                </Link>
+            </li>
+            )}
         </ul>
     </div>
   </div>
