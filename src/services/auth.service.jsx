@@ -23,7 +23,7 @@ const login = async (username, password) => {
         localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("token", JSON.stringify(accessToken.data));
     }
-    return response;
+    return response.data;
 };
 
 const register = async (username, email, password) => {

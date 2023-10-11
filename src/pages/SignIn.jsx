@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import { useAuthContext } from "../context/AuthContext";
 
 const SignIn = () => {
     const [user, setUser] = useState({
@@ -8,6 +9,7 @@ const SignIn = () => {
         password: "",
     });
     const navigate = useNavigate();
+    const {login} = useAuthContext();
     const [error, setError] = useState(false);
     const handleChange = (e) => {
         setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -22,7 +24,8 @@ const SignIn = () => {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            const login = await AuthService.login(user.username, user.password);
+            const currentUser = await AuthService.login(user.username, user.password);
+            login(currentUser);
             navigate("/");
         } catch (error) {
             console.error(error);
@@ -39,7 +42,7 @@ const SignIn = () => {
                     <div className="card-body">
                         <form>
                             <div className="from-group">
-                                <lable htmlFor="name">Username</lable>
+                                <label htmlFor="name">Username</label>
                                 <input
                                   type="text"
                                   className="form-control"
@@ -50,13 +53,28 @@ const SignIn = () => {
                                 />
                             </div>
                             <div className="from-group">
-                                <lable....
+                                <label htmlFor="name">Password</label>
+                                <input
+                                  type="password"
+                                  className="from-control"
+                                  name="password"
+                                  placeholder="Password"
+                                  onChange={handleChange}
+                                  value={user.password}
+                                />
                             </div>
+                            <Link to="" className="btn btn-success" onClick={handleClick}>
+                                Sign In
+                            </Link>{" "}
+                            <Link to="" className="btn btn-danger" onClick={handleClear}>
+                                Cancel
+                            </Link>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
+export default SignIn;
