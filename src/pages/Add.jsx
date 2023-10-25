@@ -1,55 +1,37 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import './Add.css'
+import api from "../services/api"
 
-
-
-const URL = import.meta.env.VITE_BASE_URL;
-const USERNAME = import.meta.env.VITE_BASE_USERNAME;
-const PASSWORD = import.meta.env.VITE_BASE_PASSWORD;
-
-const config = {
-    auth: {
-        username: USERNAME,
-        password: PASSWORD,
-    },
-};
 
 const Add = () => {
-    const navigate = useNavigate()
-    // สร้าง state เพื่อเก็บข้อมูลเมนูอาหาร
-    const [menu, setMenu] = useState({
-        name: '',
-        type: '',
-        img: '',
-
+    const [restaurant, setRestaurants] = useState ({
+        name: "",
+        type: "",
+        imgurl: "",
     });
+    const navigate = useNavigate()
+    const [error, setError] = useState(false);
 
-    const [updateSuccess, setUpdateSuccess] = useState(false); // เพิ่ม state สำหรับการแจ้งเตือนการอัปเดตสำเร็จ
-
-    // ฟังก์ชันเมื่อข้อมูลเมนูเปลี่ยนแปลง
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setMenu({
-            ...menu,
-            [name]: value,
-        });
+    const handleChange = (e) => {
+        setRestaurants((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     };
 
-    const handleAddMenu = async () => {
+    const handleClick = async (e) => {
         try {
-            const response = await axios.post(`${URL}/res`, menu, config);
-            console.log('เพิ่มเมนูอาหารแล้ว:', response.data);
-            setUpdateSuccess(true);
+            await api.post(`/restaurants`, restaurant);
+            navigate("/");
         } catch (error) {
-            console.error('เกิดข้อผิดพลาดในการเพิ่มเมนูอาหาร:', error);
+            console.error(error);
+            setError(true);
         }
     };
 
-    const handleCancel = () => {
-        navigate('/')
+    const handleClear = (e) => {
+        setRestaurants({
+            name: "",
+            type: "",
+            imgurl: "",
+        })
     };
 
     return (

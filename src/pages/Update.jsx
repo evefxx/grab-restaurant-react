@@ -35,7 +35,7 @@ const Update = () => {
 
     const fetchMenuItem = async (menuItemId) => {
         try {
-            const response = await axios.get(`${URL}/res/${menuItemId}`, config);
+            const response = await api.get(`${URL}/res/${menuItemId}`);
             console.log(response.data)
             const menuItemData = response.data;
             setMenu(menuItemData);
@@ -46,7 +46,7 @@ const Update = () => {
 
     const handleUpdateMenu = async () => {
         try {
-            const response = await axios.put(`${URL}/res/${menu.id}`, menu, config);
+            const response = await api.put(`${URL}/res/${menu.id}`, menu);
             console.log('อัปเดตเมนูอาหารแล้ว:', response.data);
             setUpdateSuccess(true); 
         } catch (error) {

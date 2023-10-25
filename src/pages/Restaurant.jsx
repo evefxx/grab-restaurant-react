@@ -17,7 +17,7 @@ const Restaurant = () => {
     useEffect(()=>{
         const fetchAllRestanurants = async () =>{
             try {
-                const res = await axios.get(`${URL}/restanurants`, config);
+                const res = await api.get(`${URL}/restanurants`);
                 setRestaurants(res.data);
             } catch (error) {
                 console.error(error);
